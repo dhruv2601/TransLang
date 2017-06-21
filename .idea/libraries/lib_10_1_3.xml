@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="lib-10.1.3">
+    <CLASSES>
+      <root url="file://$USER_HOME$/.android/build-cache/dae8854c29d04b83e769b9e26a25460f448d8dd4/output/res" />
+      <root url="jar://$USER_HOME$/.android/build-cache/dae8854c29d04b83e769b9e26a25460f448d8dd4/output/jars/classes.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.turingtechnologies.materialscrollbar/lib/10.1.3/fa560c506ae8c596619727bfbace8c43c1da88cb/lib-10.1.3-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

@@ -15,8 +15,12 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -32,12 +36,16 @@ import com.example.lenovo.gupshup.InternetChecker;
 import com.example.lenovo.gupshup.R;
 import com.example.lenovo.gupshup.firebase.FcmId;
 import com.example.lenovo.gupshup.firebase.URLEndPoints;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.iid.FirebaseInstanceId;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class LoginActivity extends AppCompatActivity {
@@ -52,15 +60,22 @@ public class LoginActivity extends AppCompatActivity {
     public static final String USER_NAME = "user_name";
     public static final String USER_PHONE = "user_phone";
     public static final String USER_EMAIL = "user_email";
-
+    private Spinner spinLang;
     private AlertDialog dialog;
     private AlertDialog.Builder builder;
 
+    FirebaseDatabase Db = FirebaseDatabase.getInstance();
+    DatabaseReference root = Db.getReference().getRoot();
+    private String langSelect="";
+    HashMap<String,String> langMAp=new HashMap<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
                 .detectAll().penaltyLog().build()
         );
+        langMAp.put("Hindi","hi");
+        langMAp.put("English","en");
+        langMAp.put("French","fr");
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
@@ -71,7 +86,26 @@ public class LoginActivity extends AppCompatActivity {
         register.setBackgroundColor(Color.BLACK);
         Log.d(TAG, "onCreate: Froze");
         Log.d(TAG, "onCreate: Released");
+        spinLang = (Spinner) findViewById(R.id.spin_lang);
+        final ArrayList<String> lang = new ArrayList<>();
+        lang.add("Hindi");
+        lang.add("English");
+        lang.add("French");
+        spinLang.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, lang));
 
+        spinLang.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Log.d(TAG, "onItemClick: "+lang.get(position));
+                langSelect=lang.get(position);
+                langSelect=langMAp.get(langSelect);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         register.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -122,8 +156,7 @@ public class LoginActivity extends AppCompatActivity {
                         if (error instanceof TimeoutError) {
                             Toast.makeText(LoginActivity.this, "Connection Timed Out. Keep Trying :)", Toast.LENGTH_SHORT).show();
                             dialog.dismiss();
-                        }
-                        else Log.d(TAG, "onErrorResponse: x122");
+                        } else Log.d(TAG, "onErrorResponse: x122");
                         //error.printStackTrace();
                     }
                 }) {
@@ -162,6 +195,16 @@ public class LoginActivity extends AppCompatActivity {
 
     private void registerUser(final String name, final String phone, final String email, final String token) {
         RequestQueue queue = Volley.newRequestQueue(LoginActivity.this);
+
+        Map<String, Object> m = new HashMap<>();
+        m.put(phone, "sj");
+        root.updateChildren(m);
+        Map<String,Object> mm=new HashMap<>();
+        mm.put("lang",langSelect);
+        root.child(phone).updateChildren(mm);
+
+        Log.d(TAG, "registerUser: " + root.toString());
+
 
         final ProgressDialog pd = new ProgressDialog(this);
         pd.setTitle("Contacting the Server");

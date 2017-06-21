@@ -37,13 +37,20 @@ import com.example.lenovo.gupshup.R;
 import com.example.lenovo.gupshup.firebase.FcmId;
 import com.example.lenovo.gupshup.firebase.MessageService;
 import com.example.lenovo.gupshup.firebase.URLEndPoints;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 public class ChatScreen extends AppCompatActivity {
@@ -58,6 +65,7 @@ public class ChatScreen extends AppCompatActivity {
     private String senderNum;
 
     private ArrayList<ChatMessages> msgs = new ArrayList<>();
+    private ArrayList<MsgObj> msgList=new ArrayList<>();
     private EditText etChat;
     private ImageButton btnSend;
     private RecyclerView rView;
@@ -71,6 +79,26 @@ public class ChatScreen extends AppCompatActivity {
         return chscreen;
     }
 
+    public class message{
+        public String message;
+        public String timesatmp;
+        int s;
+
+        public message() {
+
+        }
+
+        public message(String message, String timesatmp, int s) {
+            this.message = message;
+            this.timesatmp = timesatmp;
+            this.s = s;
+        }
+    }
+
+    FirebaseDatabase Db = FirebaseDatabase.getInstance();
+    DatabaseReference root = Db.getReference().getRoot();
+    DatabaseReference senderRef;
+    DatabaseReference receiverRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,7 +128,13 @@ public class ChatScreen extends AppCompatActivity {
         senderNum = getSharedPreferences(FcmId.FCM_TOKEN_SAVE, MODE_PRIVATE)
                 .getString(LoginActivity.USER_PHONE, null);
 
+//        Map<String,Object> m=new HashMap<>();
+//        m.put(receiverNum," ");
+//        root.child(senderNum).updateChildren(m);
 
+        senderRef=root.child(senderNum).child(receiverNum);
+        receiverRef=root.child(receiverNum).child(senderNum);
+        Log.d(TAG, "onCreate: sj"+senderRef.toString());
         setTitle(receiverName);
 
         msgFiller();
@@ -111,17 +145,61 @@ public class ChatScreen extends AppCompatActivity {
         rView = (RecyclerView) findViewById(R.id.msg_list);
         manager = new LinearLayoutManager(this);
         rView.setLayoutManager(manager);
-        msgAdapter = new ChatMsgAdapter(msgs);
+        msgAdapter = new ChatMsgAdapter(msgList);
         rView.setAdapter(msgAdapter);
         btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (!etChat.getText().toString().isEmpty()) {
-                    sendMessage(etChat.getText().toString());
+                   // sendMessage(etChat.getText().toString());
+                    send();
+                    //todo:send
                     etChat.setText("");
                 }
             }
         });
+
+        senderRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Log.d(TAG, "onDataChange: change");
+                Iterator it = dataSnapshot.getChildren().iterator();
+                //ArrayList<String> newLIst=new ArrayList<>();
+                msgList.clear();
+                while (it.hasNext()) {
+                    String msgString=(String) ((DataSnapshot) it.next()).getValue();
+                    String[] sp = msgString.split(":");
+
+
+                    boolean flag= sp[0].charAt(0)=='0'?false:true;
+
+                    msgList.add(new MsgObj(flag,sp[1]));
+                }
+                //chat_list=newLIst;
+                msgAdapter.notifyDataSetChanged();
+//                listView.setSelection(adapter.getCount()-1);
+
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    public  void send(){
+        Map<String,Object> xx=new HashMap<>();
+        //xx.put(String.valueOf(Calendar.getInstance().getTimeInMillis()),new message(etChat.getText().toString(),String.valueOf(Calendar.getInstance().getTimeInMillis()),1));
+        xx.put(String.valueOf(Calendar.getInstance().getTimeInMillis()),"1:"+etChat.getText().toString());
+        senderRef.updateChildren(xx);
+
+        Map<String,Object> yy=new HashMap<>();
+        //xx.put(String.valueOf(Calendar.getInstance().getTimeInMillis()),new message(etChat.getText().toString(),String.valueOf(Calendar.getInstance().getTimeInMillis()),0));
+        yy.put(String.valueOf(Calendar.getInstance().getTimeInMillis()),"0:"+etChat.getText().toString());
+        receiverRef.updateChildren(yy);
+
     }
 
     @Override
@@ -161,7 +239,7 @@ public class ChatScreen extends AppCompatActivity {
 
         private TextView tvMsg;
         private TextView tvTime;
-        private ChatMessages messages;
+        private MsgObj messages;
 
         public MyHolder(View itemView) {
             super(itemView);
@@ -173,9 +251,9 @@ public class ChatScreen extends AppCompatActivity {
 
     class ChatMsgAdapter extends RecyclerView.Adapter<MyHolder> {
 
-        private ArrayList<ChatMessages> msgData = new ArrayList<>();
+        private ArrayList<MsgObj> msgData = new ArrayList<>();
 
-        public ChatMsgAdapter(ArrayList<ChatMessages> msgData) {
+        public ChatMsgAdapter(ArrayList<MsgObj> msgData) {
             this.msgData = msgData;
         }
 
@@ -187,7 +265,7 @@ public class ChatScreen extends AppCompatActivity {
 
         @Override
         public int getItemViewType(int position) {
-            if (senderNum.equals(msgData.get(position).getSender())) {
+            if (msgData.get(position).flag) {
                 return R.layout.message_box_sent;
             } else return R.layout.message_box_receive;
         }
@@ -195,8 +273,8 @@ public class ChatScreen extends AppCompatActivity {
         @Override
         public void onBindViewHolder(MyHolder holder, int position) {
             holder.messages = msgData.get(position);
-            holder.tvMsg.setText(holder.messages.getMessage());
-            holder.tvTime.setText(holder.messages.getTime());
+            holder.tvMsg.setText(holder.messages.msg);
+            holder.tvTime.setVisibility(View.GONE);
         }
 
         @Override
@@ -350,6 +428,16 @@ public class ChatScreen extends AppCompatActivity {
                 }
             });
 
+        }
+    }
+
+    class MsgObj {
+        public boolean flag;
+        public String msg;
+
+        public MsgObj(boolean flag, String msg) {
+            this.flag = flag;
+            this.msg = msg;
         }
     }
 }

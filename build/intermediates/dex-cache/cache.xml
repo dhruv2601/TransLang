@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        is-multidex="false"
+        jar="C:\Users\Sushant Jain\.android\build-cache\413b8718dd50af4b95bdb227b9e08c9c26dd04b3\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="c5ba9c86efe8e242e947176ff8d519c0d3842534">
+        <dex dex="G:\TransLang\app\build\intermediates\pre-dexed\debug\classes_d4a7d9ab9fbc528b13049f24ec2c40ff7761d65f.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Sushant Jain\.android\build-cache\11e114385d38118cf7803d8a36a299314fba3cf9\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="d9ecde39b460470e655de6e47c05573d2d5a8bfb">
+        <dex dex="G:\TransLang\app\build\intermediates\pre-dexed\debug\classes_46922a3f48af496e0e2dad0247904f788b990b5e.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Sushant Jain\.android\build-cache\4dda7356e1f108960fcbf97a151ec771353d6c79\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="2cd4b982617e544728de0782d718a58ce1b06e3f">
+        <dex dex="G:\TransLang\app\build\intermediates\pre-dexed\debug\classes_4b8da5810e35f6674fff1ce7ff5f593e6d5b0278.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Sushant Jain\.android\build-cache\ae3fa4088a4b39528a850fd8de6909f8adbf9e7e\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="1256c10604bb098490eab070d76754ac5ceab35c">
+        <dex dex="G:\TransLang\app\build\intermediates\pre-dexed\debug\classes_357b86abb8d4a0999d16ee89516322ed8b423ed3.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Sushant Jain\.android\build-cache\817b1ea0e28e898b7b3c040187705c53eeec041f\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="6a0f2d219f82db499ac03d5a985c4eb3e83fc422">
+        <dex dex="G:\TransLang\app\build\intermediates\pre-dexed\debug\classes_abad94dab19dcc0cbcb2c45e0e83e96907464c1a.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Sushant Jain\.android\build-cache\b8f71cfd9f55a6e1b1dcff9eaa9dacf6bb10fdf0\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="ac78f93fc89c497a65f9d9a352cd405996d2f65a">
+        <dex dex="G:\TransLang\app\build\intermediates\pre-dexed\debug\classes_45ab6224e464c6acb8e8489039f877df5213a6be.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Sushant Jain\AppData\Local\Android\Sdk\extras\android\m2repository\com\android\support\support-annotations\24.1.1\support-annotations-24.1.1.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="3af19f153122737b372622fa6c81dd11a1c6b999">
+        <dex dex="G:\TransLang\app\build\intermediates\pre-dexed\debug\support-annotations-24.1.1_7c0f876fea0d56b2e3f1d0dc95843f4ee72d6684.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Sushant Jain\.android\build-cache\f175e9d5df3deb31cd07de81a9e5862dcbe02af3\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="6d7d803871e3203465f71a163e7af104f807b446">
+        <dex dex="G:\TransLang\app\build\intermediates\pre-dexed\debug\classes_83d9f8a92621b7a9b4975a4872fbacbd9bcf4703.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Sushant Jain\.android\build-cache\c139e77be0e90b6a1d03327cb2781550a96c5967\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="819c2c3a4fb135e085445d11131d069cf9c32b2a">
+        <dex dex="G:\TransLang\app\build\intermediates\pre-dexed\debug\classes_d9a818ad0768e2243fb0e394aff3aecf73fe77f5.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Sushant Jain\.android\build-cache\dae8854c29d04b83e769b9e26a25460f448d8dd4\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="600550fc75fc7328e3972c0a6936ea8978d21bee">
+        <dex dex="G:\TransLang\app\build\intermediates\pre-dexed\debug\classes_fd269bcc53a9052e374aee8cffeeb59554412beb.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Sushant Jain\.android\build-cache\d90d0db932591088f0e9ae1ede66b8b815afe9db\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="d41b5d21cc9dd7d210f0ae82ac509ba7f091d611">
+        <dex dex="G:\TransLang\app\build\intermediates\pre-dexed\debug\classes_97218beb35babea93d2d6dcaf6a01dd64cfe7edc.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Sushant Jain\.android\build-cache\17d037b3cfa1eb585b90453fce37e0bc9453e215\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="6b896c1067633db41e9c10a3a5d0919c5c4cfc8c">
+        <dex dex="G:\TransLang\app\build\intermediates\pre-dexed\debug\classes_b3ab7a8c7f4baafdf50503b4e09dc820150910e9.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Sushant Jain\.android\build-cache\f175e9d5df3deb31cd07de81a9e5862dcbe02af3\output\jars\libs\internal_impl-24.1.1.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="f78c2f395cb096f9dc1dc07e729922b8fcd3c4f5">
+        <dex dex="G:\TransLang\app\build\intermediates\pre-dexed\debug\internal_impl-24.1.1_ca25b5f2b03fb10df8d6261e3384e179be582892.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Sushant Jain\.android\build-cache\de7cf5ee132f9f2cf693c9f64c978ae318da6150\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="5337354083e89ed67151859ab0b6b80935c60eaf">
+        <dex dex="G:\TransLang\app\build\intermediates\pre-dexed\debug\classes_a561f7057db69bbc8da36ef2c335a073b91f19dd.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Sushant Jain\.android\build-cache\bf1cad622237279020a6601d2dd2e61fd699459b\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="f06a0705d7b8b9d18b00d056fe0e07bec75514e6">
+        <dex dex="G:\TransLang\app\build\intermediates\pre-dexed\debug\classes_3d27c6fa9ed2e846398ee1659813348459a204d0.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Sushant Jain\.android\build-cache\7f4a714d100d1dfff9889c326399c839ef7652f2\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="e195bd694d5389acfba27ff4fdfa64c4c65b2c05">
+        <dex dex="G:\TransLang\app\build\intermediates\pre-dexed\debug\classes_e51982362c235ea0e5f9f186d90fea6eae34d968.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Sushant Jain\.android\build-cache\c72624df072c495bf6bc1ea31970ce4f89aca590\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="f62e763609f65e47dc6c498760a4accf02776788">
+        <dex dex="G:\TransLang\app\build\intermediates\pre-dexed\debug\classes_fcaee9a2dea0e605d80a666f078bc960577cb450.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Sushant Jain\.android\build-cache\846b2510ee040fdecdbc3539c285572a0511cc67\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="3627eacd7f7cafb5e8ae683992e7b2f9b7dcab1a">
+        <dex dex="G:\TransLang\app\build\intermediates\pre-dexed\debug\classes_b1971e7e727c642778be08b0247b94af97e2bc7d.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Sushant Jain\.android\build-cache\6be85cec9fed39e1e4b447b50505434f0d1f605d\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="421b36cf4f0d3bbd75e8f28647fccf36674ef049">
+        <dex dex="G:\TransLang\app\build\intermediates\pre-dexed\debug\classes_175146638a2778a3b046785e3ab935d515b82522.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Sushant Jain\.android\build-cache\7e12391ffc94edab7908f43300967dd63029a593\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="787871951412550519b0222aba3c9df4cea49875">
+        <dex dex="G:\TransLang\app\build\intermediates\pre-dexed\debug\classes_3a089b7bd0fe186e78aba72e55dbd9bbf2237586.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Sushant Jain\.android\build-cache\5130ebbfc805de77a45bb185afced7b71a18b54c\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="c936c1bd42f0c018c18920c7bec619ef056b24f8">
+        <dex dex="G:\TransLang\app\build\intermediates\pre-dexed\debug\classes_40e037a49ed6f32cd09ee31059c1a7cecb014d8c.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Sushant Jain\.android\build-cache\b3423265968711fcbc03f009f8be79c89fab72ed\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="05d2e01f33fb2097b51fce3f938dc37a75fe2d6b">
+        <dex dex="G:\TransLang\app\build\intermediates\pre-dexed\debug\classes_d9456cdc541a748654c2d3bffaa92526a08addfe.jar" />
+    </item>
+
+</items>
