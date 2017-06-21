@@ -139,12 +139,12 @@ public class MainActivity extends AppCompatActivity {
                 Log.d(TAG, "email" + email.isEmpty());
                 Log.d(TAG, "token" + token.isEmpty());
 
-                if (name.isEmpty() || phone.isEmpty() || email.isEmpty() || token.isEmpty()) {
-                    Intent intent = new Intent(MainActivity.this,LoginActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    Log.d(TAG, "run: int2");
-                    startActivity(intent);
-                }
+//                if (name.isEmpty() || phone.isEmpty() || email.isEmpty() || token.isEmpty()) {
+//                    Intent intent = new Intent(MainActivity.this,LoginActivity.class);
+//                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//                    Log.d(TAG, "run: int2");
+//                    startActivity(intent);
+//                }
             }
         }).start();
 

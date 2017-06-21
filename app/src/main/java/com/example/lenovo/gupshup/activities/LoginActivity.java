@@ -1,16 +1,12 @@
 package com.example.lenovo.gupshup.activities;
 
-import android.Manifest;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.annotation.NonNull;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -20,7 +16,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
-import com.android.volley.NoConnectionError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -32,6 +27,16 @@ import com.example.lenovo.gupshup.InternetChecker;
 import com.example.lenovo.gupshup.R;
 import com.example.lenovo.gupshup.firebase.FcmId;
 import com.example.lenovo.gupshup.firebase.URLEndPoints;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseException;
+import com.google.firebase.FirebaseTooManyRequestsException;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.PhoneAuthCredential;
+import com.google.firebase.auth.PhoneAuthProvider;
 import com.google.firebase.iid.FirebaseInstanceId;
 
 import org.json.JSONException;
@@ -39,14 +44,21 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 public class LoginActivity extends AppCompatActivity {
 
+    private FirebaseAuth mAuth;
+    private PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks;
+    private String mVerificationId = "";
+    PhoneAuthProvider.ForceResendingToken mResendToken;
     private static final String TAG = "LoginActivity";
 
     private EditText mName, mEmail, mPhone;
     private InternetChecker checker;
     private Button register;
+
+    private String checkPhoneNo = "";
 
     public static final String USER_TOKEN = "token";
     public static final String USER_NAME = "user_name";
@@ -64,6 +76,7 @@ public class LoginActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
         mName = (EditText) findViewById(R.id.name);
         mEmail = (EditText) findViewById(R.id.email);
         mPhone = (EditText) findViewById(R.id.phone);
@@ -72,6 +85,57 @@ public class LoginActivity extends AppCompatActivity {
         Log.d(TAG, "onCreate: Froze");
         Log.d(TAG, "onCreate: Released");
 
+        mCallbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
+
+            @Override
+            public void onVerificationCompleted(PhoneAuthCredential credential) {
+                // This callback will be invoked in two situations:
+                // 1 - Instant verification. In some cases the phone number can be instantly
+                //     verified without needing to send or enter a verification code.
+                // 2 - Auto-retrieval. On some devices Google Play services can automatically
+                //     detect the incoming verification SMS and perform verificaiton without
+                //     user action.
+                Log.d(TAG, "onVerificationCompleted:" + credential);
+
+                signInWithPhoneAuthCredential(credential);
+            }
+
+            @Override
+            public void onVerificationFailed(FirebaseException e) {
+                // This callback is invoked in an invalid request for verification is made,
+                // for instance if the the phone number format is not valid.
+                Log.d(TAG, "onVerificationFailed", e);
+
+                if (e instanceof FirebaseAuthInvalidCredentialsException) {
+                    // Invalid request
+                    // ...
+                } else if (e instanceof FirebaseTooManyRequestsException) {
+                    // The SMS quota for the project has been exceeded
+                    // ...
+                }
+
+//                Intent i = new Intent(LoginActivity.this, MainActivity.class);
+//                startActivity(i);
+
+                // Show a message and update the UI
+                // ...
+            }
+
+            @Override
+            public void onCodeSent(String verificationId,
+                                   PhoneAuthProvider.ForceResendingToken token) {
+                // The SMS verification code has been sent to the provided phone number, we
+                // now need to ask the user to enter the code and then construct a credential
+                // by combining the code with a verification ID.
+                Log.d(TAG, "onCodeSent:" + verificationId);
+
+                // Save verification ID and resending token so we can use them later
+                mVerificationId = verificationId;
+                mResendToken = token;
+//                Intent i = new Intent(LoginActivity.this, MainActivity.class);
+//                startActivity(i);
+            }
+        };
 
         register.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,6 +150,8 @@ public class LoginActivity extends AppCompatActivity {
                     String phone = mPhone.getText().toString();
                     String email = mEmail.getText().toString();
 
+                    checkPhoneNo = phone;
+
                     SharedPreferences preferences = getSharedPreferences(FcmId.FCM_TOKEN_SAVE, MODE_PRIVATE);
                     String token = preferences.getString(USER_TOKEN, null);
                     if (token == null) {
@@ -97,6 +163,34 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+    private void signInWithPhoneAuthCredential(PhoneAuthCredential credential) {
+
+        mAuth = FirebaseAuth.getInstance();
+
+        Log.d(TAG, "signInValePE");
+        mAuth.signInWithCredential(credential)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            Log.d(TAG, "signInWithCredential:success");
+
+                            Intent i = new Intent(LoginActivity.this, MainActivity.class);
+                            startActivity(i);
+
+                            FirebaseUser user = task.getResult().getUser();
+                            // ...
+                        } else {
+                            // Sign in failed, display a message and update the UI
+                            Log.w(TAG, "signInWithCredential:failure", task.getException());
+                            if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
+                                // The verification code entered was invalid
+                            }
+                        }
+                    }
+                });
+    }
 
     private void isRegistered(final String name, final String phone, final String email, final String token) {
 
@@ -122,8 +216,7 @@ public class LoginActivity extends AppCompatActivity {
                         if (error instanceof TimeoutError) {
                             Toast.makeText(LoginActivity.this, "Connection Timed Out. Keep Trying :)", Toast.LENGTH_SHORT).show();
                             dialog.dismiss();
-                        }
-                        else Log.d(TAG, "onErrorResponse: x122");
+                        } else Log.d(TAG, "onErrorResponse: x122");
                         //error.printStackTrace();
                     }
                 }) {
@@ -140,7 +233,6 @@ public class LoginActivity extends AppCompatActivity {
                 Log.d(TAG, "ContentBodyTypeloginact");
                 return "application/x-www-form-urlencoded; charset=UTF-8";
             }
-
         };
         que.add(req);
 
@@ -161,58 +253,20 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void registerUser(final String name, final String phone, final String email, final String token) {
-        RequestQueue queue = Volley.newRequestQueue(LoginActivity.this);
 
-        final ProgressDialog pd = new ProgressDialog(this);
-        pd.setTitle("Contacting the Server");
-        pd.setIndeterminate(true);
-        pd.setCancelable(false);
-        pd.setMessage("Please wait...");
-        StringRequest req = new StringRequest(
-                Request.Method.POST,
-                URLEndPoints.EndPoints.NEW_USER,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            JSONObject jsonObject = new JSONObject(response);
-                            Toast.makeText(LoginActivity.this, jsonObject.getString("message"),
-                                    Toast.LENGTH_SHORT).show();
-                            pd.dismiss();
-                            isRegistered(name, phone, email, token);
-                        } catch (JSONException e) {
-                            //e.printStackTrace();
-                            Toast.makeText(LoginActivity.this, "Could not register", Toast.LENGTH_SHORT).show();
-                            pd.dismiss();
-                        }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        if (error instanceof TimeoutError) {
-                            Toast.makeText(LoginActivity.this, "Connection Timed Out. Keep Trying :)", Toast.LENGTH_SHORT).show();
-                            dialog.dismiss();
-                        } else Log.d(TAG, "onErrorResponse: x132 " + error.getMessage());
+        Log.d(TAG, "checkPhoneNo.: " + checkPhoneNo);
+        PhoneAuthProvider.getInstance().verifyPhoneNumber(
+                checkPhoneNo,        // Phone number to verify
+                50,                 // Timeout duration
+                TimeUnit.SECONDS,   // Unit of timeout
+                this,               // Activity (for callback binding)
+                mCallbacks);
+        // OnVerificationStateChangedCallbacks
+        Log.d(TAG, "registerUser: adgagadga");
 
-                    }
-                }) {
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> map = new HashMap<>();
-                map.put("name", name);
-                map.put("phone_no", phone);
-                map.put("email", email);
-                return map;
-            }
+        Log.d(TAG, "checkPhoneNo.: " + checkPhoneNo);
 
-            @Override
-            public String getBodyContentType() {
-                return "application/x-www-form-urlencoded; charset=UTF-8";
-            }
-        };
-        queue.add(req);
-        pd.show();
+        Log.d(TAG, "registerUser: " + name + phone + email + token);
     }
 
     @Override
@@ -247,5 +301,4 @@ public class LoginActivity extends AppCompatActivity {
         super.onPause();
         unregisterReceiver(checker);
     }
-
 }
